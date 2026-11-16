@@ -16,3 +16,12 @@ When I asked "Do you have parking?" it invented an answer about public parking l
 I kept hours, location, and menu in the FAQ tool so those answers are always exact and cannot be invented by the model.
 Refunds and payments are still sent to staff in code, because the model cannot be trusted with anything that has to be right.
 The tests use a mock model, so they pass even with Ollama switched off.
+
+## Week 12: Letting Bean choose its tool
+
+Bean's model now decides when to use a tool, every tool request goes through one checked door (MyToolbox), and a pickup order waits in a queue until the barista approves it.
+The model handled "What are your hours?" well: it asked for the look_up_faq tool and answered with the exact hours from the FAQ tool instead of inventing them.
+When I asked for a latte without giving my name, Bean asked for my name instead of placing the order, because the door refuses a pickup request with a name the customer never typed; my test_made_up_name_is_refused test shows a model making up the name "Dana" and the door refusing it.
+After I gave my name, the order went to the barista review and was only placed when I typed yes, and approving it a second time changes nothing.
+I added "If the customer only says hello, greet them and ask how you can help" to the instructions, so a greeting gets a greeting instead of a tool call.
+Refunds and payments still go to a staff member in code, before the model ever sees the message.

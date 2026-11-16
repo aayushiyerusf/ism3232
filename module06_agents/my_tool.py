@@ -2,13 +2,28 @@
 # Author: Aayush Iyer
 
 
-class FAQTool:  # Define a tool that looks up FAQ answers.
-    def __init__(self, answers):  # Accept a dictionary of topics and answers.
-        self.answers = answers  # Store the answers on this tool.
+class FAQTool:
+    """A tool that knows the coffee shop's answers. It knows nothing about chatting."""
 
-    def find_answer(self, text):  # Look for a known topic in the message.
-        text = text.lower()  # Allow matching regardless of capitalization.
-        for topic in self.answers:  # Check each topic in the dictionary.
-            if topic.lower() in text:  # Check whether the topic was mentioned.
-                return self.answers[topic]  # Return the stored answer.
-        return None  # Report that no matching answer was found.
+    def __init__(self, answers):
+        """Store a dictionary of topics and answers."""
+        self.answers = answers
+
+    def find_answer(self, text):
+        """Return the answer for the first known topic in text, or None."""
+        text = text.lower()
+        for topic in self.answers:
+            if topic.lower() in text:
+                return self.answers[topic]
+        return None
+
+    def look_up_faq(self, topic):
+        """Look up the coffee shop's answer about hours, location, or menu.
+
+        Args:
+            topic: The topic to look up, like hours, location, or menu.
+        """
+        answer = self.find_answer(topic)
+        if answer is None:
+            return "There is no answer for that topic. Topics are hours, location, and menu."
+        return answer
