@@ -17,6 +17,7 @@ class Toolbox:
             self.order_tool.look_up_order,
             self.stock_tool.check_stock,
             self.change_queue.request_address_change,
+            self.order_tool.check_return,
         ]
 
     def run(self, name, arguments, history):
@@ -43,6 +44,13 @@ class Toolbox:
             if not self.customer_said(history, new_address):
                 return "The customer has not given that address. Ask them for it."
             return self.change_queue.request_address_change(order_id, new_address)
+        if name == "check_return":
+            order_id = self.clean(arguments, "order_id")
+            if order_id == "":
+                return "The order ID is missing. Ask the customer for it."
+            if not self.customer_said(history, order_id):
+                return "The customer has not given that order ID. Ask them for it."
+            return self.order_tool.check_return(order_id)
         return f"There is no tool named {name}."
 
     def clean(self, arguments, key):

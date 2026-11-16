@@ -89,3 +89,11 @@ def test_unknown_order_containing_a_known_id_is_not_queued():
     reply = tools.change_queue.request_address_change("A1000", "9 Pine Street")
     assert "No order" in reply
     assert tools.change_queue.waiting() == []
+
+
+def test_check_return_for_order_not_delivered():
+    tools = make_tools()
+    assert (
+        tools.order_tool.check_return("A101")
+        == "Order A101 is processing and cannot be returned yet."
+    )
